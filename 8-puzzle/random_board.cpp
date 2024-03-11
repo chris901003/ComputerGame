@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-    cout << 1000 << " " << 3 << endl;
+    cout << 10 << " " << 3 << endl;
     int c = 1000;
     while (c--) {
         vector<int>v;
