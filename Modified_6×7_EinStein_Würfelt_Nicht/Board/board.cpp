@@ -8,6 +8,12 @@
 
 using namespace std;
 
+MoveData::MoveData(Player player, int num, MoveDirection direction) {
+    this->player = player;
+    this->num = num;
+    this->direction = direction;
+}
+
 Board::Board() {
     board = vector<vector<int>>(6, vector<int>(7, -1));
     vector<int> red = {0, 1, 2, 3, 4, 5};
@@ -16,15 +22,65 @@ Board::Board() {
     shuffle(blue.begin(), blue.end(), default_random_engine(rand()));
     int index = 0;
     for (int i = 0; i < 3; i++)
-        for (int j = 0; j + i < 3; j++)
-            board[i][j] = red[index++];
+        for (int j = 0; j + i < 3; j++) {
+            board[i][j] = red[index];
+            chessPlace[red[index++]] = {i, j};
+        }
     index = 0;
     for (int i = 5; i > 2; i--)
-        for (int j = 4 + (5 - i); j < 7; j++)
-            board[i][j] = blue[index++];
+        for (int j = 4 + (5 - i); j < 7; j++) {
+            board[i][j] = blue[index];
+            chessPlace[blue[index++]] = {i, j};
+        }
+}
+
+pair<int, int> Board::getDxDy(MoveDirection direction) {
+    switch (direction) {
+        case MoveDirection::right:
+        return {0, 1};
+        case MoveDirection::down:
+        return {1, 0};
+        case MoveDirection::rightDown:
+        return {1, 1};
+        case MoveDirection::left:
+        return {0, -1};
+        case MoveDirection::up:
+        return {-1, 0};
+        case MoveDirection::leftUp:
+        return {-1, -1};
+    }
+}
+
+bool Board::move(MoveData moveData) {
+    int num = moveData.num;
+    MoveDirection direction = moveData.direction;
+
+    if (num < 0 || num >= 6) return false;
+    if (moveData.player == Player::blue) num += 6;
+    if (!chessPlace.count(num)) return false;
+
+    pair<int, int> curPos = chessPlace[num];
+    pair<int, int> dxdy = getDxDy(direction);
+    pair<int, int> nxtPos = {curPos.first + dxdy.first, curPos.second + dxdy.second};
+    if (nxtPos.first < 0 || nxtPos.first >= 6 || nxtPos.second < 0 || nxtPos.second >= 7) return false;
+    int nxtNum = board[nxtPos.first][nxtPos.second];
+
+    if (moveData.player == Player::red) {
+        if (direction != MoveDirection::right && direction != MoveDirection::down && direction != MoveDirection::rightDown) return false;
+        if (nxtNum != -1 && nxtNum < 6) return false;
+    } else {
+        if (direction != MoveDirection::left && direction != MoveDirection::up && direction != MoveDirection::leftUp) return false;
+        if (nxtNum != -1 && nxtNum >= 6) return false;
+    }
+    if (nxtNum != -1) chessPlace.erase(nxtNum);
+    chessPlace[num] = nxtPos;
+    board[nxtPos.first][nxtPos.second] = num;
+    board[curPos.first][curPos.second] = -1;
+    return true;
 }
 
 void Board::printBoard() {
+    cout << "=======================" << endl;
     for (auto &x:board) {
         for (auto &y:x) {
             if (y == -1) cout << WHITE << "X" << " ";
