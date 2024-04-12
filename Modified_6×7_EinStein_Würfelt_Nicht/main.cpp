@@ -4,9 +4,11 @@
 int main() {
     Board board = Board();
     board.printBoard();
-    MoveData moveData = MoveData(Player::red, 4, MoveDirection::rightDown);
-    board.move(moveData);
-    board.printBoard();
+    vector<MoveData> data = board.validMove(Player::red);
+    cout << data.size() << endl;
+    for (auto &x: data) {
+        cout << x.num << " " << x.direction << endl;
+    }
 
     return 0;
 }

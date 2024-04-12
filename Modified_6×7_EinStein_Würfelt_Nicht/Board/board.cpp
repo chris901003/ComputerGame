@@ -79,6 +79,27 @@ bool Board::move(MoveData moveData) {
     return true;
 }
 
+vector<MoveData> Board::validMove(Player player) {
+    vector<MoveData> response;
+    int num = 0 + (player == Player::red ? 0 : 6);
+    int baseDir = 0 + (player == Player::red ? 0 : 3);
+    for (int offset = 0; offset < 6; offset++) {
+        if (!chessPlace.count(num + offset)) continue;
+        pair<int, int> curPos = chessPlace[num + offset];
+        for (int dir = 0; dir < 3; dir++) {
+            MoveDirection direction = MoveDirection(baseDir + dir);
+            pair<int, int> dxdy = getDxDy(direction);
+            pair<int, int>nxtPos = {curPos.first + dxdy.first, curPos.second + dxdy.second};
+            if (nxtPos.first < 0 || nxtPos.first >= 6 || nxtPos.second < 0 || nxtPos.second >= 7) continue;
+            int nxtNum = board[nxtPos.first][nxtPos.second];
+            if (nxtNum != -1 && (nxtNum / 6) == ((num + offset) / 6)) continue;
+            MoveData data = MoveData(player, (num + offset) % 6, direction);
+            response.push_back(data);
+        }
+    }
+    return response;
+}
+
 void Board::printBoard() {
     cout << "=======================" << endl;
     for (auto &x:board) {

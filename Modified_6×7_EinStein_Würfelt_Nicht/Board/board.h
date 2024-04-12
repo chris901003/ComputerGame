@@ -5,12 +5,12 @@
 using namespace std;
 
 enum MoveDirection {
-    right,
-    down,
-    rightDown,
-    left,
-    up,
-    leftUp
+    right = 0,
+    down = 1,
+    rightDown = 2,
+    left = 3,
+    up = 4,
+    leftUp = 5
 };
 
 struct MoveData {
@@ -30,5 +30,6 @@ class Board {
     public:
     Board();
     bool move(MoveData);
+    vector<MoveData> validMove(Player);
     void printBoard();
 };
