@@ -26,6 +26,7 @@ class Board {
     vector<vector<int>> board;
     map<int, pair<int, int>> chessPlace;
     pair<int, int> getDxDy(MoveDirection);
+    vector<MoveData> moveRecord;
 
     public:
     Board();

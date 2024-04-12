@@ -76,6 +76,7 @@ bool Board::move(MoveData moveData) {
     chessPlace[num] = nxtPos;
     board[nxtPos.first][nxtPos.second] = num;
     board[curPos.first][curPos.second] = -1;
+    moveRecord.push_back(moveData);
     return true;
 }
 
