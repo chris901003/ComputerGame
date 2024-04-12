@@ -1,8 +1,12 @@
 #pragma once
 #include <bits/stdc++.h>
-#include "../Game/game.h"
 
 using namespace std;
+
+enum Player {
+    red,
+    blue
+};
 
 enum MoveDirection {
     right = 0,
