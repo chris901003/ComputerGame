@@ -1,5 +1,6 @@
 #pragma once
 #include "../Board/board.h"
+#include "../Player/PlayerBase/playerBase.h"
 
 using namespace std;
 
@@ -13,8 +14,7 @@ class PlayerType {
     };
     PlayerType(Value);
     string getTitle();
-
-    private:
+    PlayerBase* getPlayerManager();
     Value value;
 };
 
@@ -22,10 +22,16 @@ class Game {
     private:
     PlayerType player1 = PlayerType(PlayerType::human);
     PlayerType player2 = PlayerType(PlayerType::human);
+    PlayerBase *playerManager1 = new PlayerBase();
+    PlayerBase *playerManager2 = new PlayerBase();
     Board board = Board();
 
     PlayerType askPlayerType(int);
+    void initPlayerManager();
+    string getMoveDirectionTitle(MoveDirection);
+    vector<MoveData> getAndPrintValidMove(int turn);
 
     public:
     void initGame();
+    void startGame();
 };
