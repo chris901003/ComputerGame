@@ -83,7 +83,11 @@ void Game::startGame() {
         vector<MoveData> moveData = getValidMove(turn);
 
         if (moveData.size() > 0) {
+            PlayerType player = turn == 1 ? player1 : player2;
             PlayerBase* playerManager = turn == 1 ? playerManager1 : playerManager2;
+            if (player.value == PlayerType::alphaBeta) {
+                ((PlayerAlphaBeta*)playerManager)->updateBoard(board);
+            }
             MoveData decidedMove = playerManager->getMoveDecision(moveData);
             board.move(decidedMove);
             passCnt = 0;
