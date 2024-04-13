@@ -82,7 +82,11 @@ void Game::startGame() {
         vector<MoveData> moveData = getValidMove(turn);
 
         PlayerBase* playerManager = turn == 1 ? playerManager1 : playerManager2;
-        playerManager->getMoveDecision(moveData);
+        MoveData decidedMove = playerManager->getMoveDecision(moveData);
+        board.move(decidedMove);
+
+        cout << "目前盤面" << endl;
+        board.printBoard();
 
         break;
     }

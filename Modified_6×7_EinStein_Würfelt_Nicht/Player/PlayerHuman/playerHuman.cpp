@@ -20,11 +20,22 @@ string PlayerHuman::getMoveDirectionTitle(MoveDirection direction) {
     }
 }
 
-MoveData PlayerHuman::getMoveDecision(vector<MoveData> moveDatas) {
-    cout << "Human have override it." << endl;
+void PlayerHuman::printValidMove(vector<MoveData> moveDatas) {
     cout << "總共有" << moveDatas.size() << "種選擇" << endl;
     for (int index = 0; index < moveDatas.size(); index++) {
         cout << index + 1 << ". " << moveDatas[index].num << " 往 " << getMoveDirectionTitle(moveDatas[index].direction) << endl;
     }
-    return moveDatas[0];
+}
+
+MoveData PlayerHuman::getMoveDecision(vector<MoveData> moveDatas) {
+    cout << "請從以下的幾個移動方法" << endl;
+    printValidMove(moveDatas);
+    int chooseNum = 0;
+    bool firstTime = true;
+    do {
+        cout << (firstTime ? "你選擇: " : "請輸入合法選擇: ");
+        firstTime = false;
+        cin >> chooseNum;
+    } while (chooseNum <= 0 || chooseNum > moveDatas.size());
+    return moveDatas[chooseNum - 1];
 }
