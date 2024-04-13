@@ -101,6 +101,19 @@ vector<MoveData> Board::validMove(Player player) {
     return response;
 }
 
+int Board::getPlayerChessCnt(Player player) {
+    int offset = player == Player::red ? 0 : 6;
+    int result = 0;
+    for (int index = 0; index < 6; index++) {
+        result += chessPlace.count(offset + index);
+    }
+    return result;
+}
+
+int Board::getBoardNum(int x, int y) {
+    return board[x][y];
+}
+
 void Board::printBoard() {
     cout << "=======================" << endl;
     for (auto &x:board) {

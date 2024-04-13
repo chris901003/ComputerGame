@@ -33,4 +33,5 @@ class Game {
     public:
     void initGame();
     void startGame();
+    void endGame();
 };

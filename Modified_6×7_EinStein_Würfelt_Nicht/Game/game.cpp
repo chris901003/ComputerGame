@@ -76,18 +76,51 @@ void Game::initGame() {
 }
 
 void Game::startGame() {
+    int passCnt = 0;
     int turn = 1;
     while (true) {
         cout << "現在是玩家" << turn << "進行" << endl;
         vector<MoveData> moveData = getValidMove(turn);
 
-        PlayerBase* playerManager = turn == 1 ? playerManager1 : playerManager2;
-        MoveData decidedMove = playerManager->getMoveDecision(moveData);
-        board.move(decidedMove);
+        if (moveData.size() > 0) {
+            PlayerBase* playerManager = turn == 1 ? playerManager1 : playerManager2;
+            MoveData decidedMove = playerManager->getMoveDecision(moveData);
+            board.move(decidedMove);
+            passCnt = 0;
+        } else {
+            cout << "玩家" << turn << "沒有任何合法走步" << endl;
+            passCnt += 1;
+        }
 
-        cout << "目前盤面" << endl;
-        board.printBoard();
+        if (passCnt < 2) {
+            cout << "目前盤面" << endl;
+            board.printBoard();
+        } else {
+            break;
+        }
 
-        break;
+        turn = turn == 1 ? 2 : 1;
     }
+}
+
+void Game::endGame() {
+    cout << "*********==================*********" << endl;
+    cout << "遊戲結束" << endl;
+    cout << "最終版面" << endl;
+    board.printBoard();
+
+    int redChessCnt = board.getPlayerChessCnt(Player::red);
+    int blueChessCnt = board.getPlayerChessCnt(Player::blue);
+    cout << "紅色旗子共剩下: " << redChessCnt << endl;
+    cout << "藍色旗子共剩下: " << blueChessCnt << endl;
+    if (redChessCnt == 0) {
+        cout << "藍方獲勝" << endl;
+        return;
+    } else if (blueChessCnt == 0) {
+        cout << "紅方獲勝" << endl;
+    }
+
+    int topLeftNum = board.getBoardNum(0 ,0) % 6;
+    int bottomRightNum = board.getBoardNum(5, 6) % 6;
+    cout << (topLeftNum == bottomRightNum ? "平手" : topLeftNum > bottomRightNum ? "藍方獲勝" : "紅方獲勝") << endl;
 }

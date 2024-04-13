@@ -5,8 +5,10 @@
 #include "Player/PlayerAlphaBeta/playerAlphaBeta.h"
 
 int main() {
+    srand(time(NULL));
     Game game = Game();
     game.initGame();
     game.startGame();
+    game.endGame();
     return 0;
 }

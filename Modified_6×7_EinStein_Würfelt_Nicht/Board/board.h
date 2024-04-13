@@ -37,4 +37,6 @@ class Board {
     bool move(MoveData);
     vector<MoveData> validMove(Player);
     void printBoard();
+    int getPlayerChessCnt(Player);
+    int getBoardNum(int x, int y);
 };
