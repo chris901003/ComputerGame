@@ -4,6 +4,7 @@
 using namespace std;
 
 MoveData PlayerRandom::getMoveDecision(vector<MoveData> moveDatas) {
-    cout << "Random have override it." << endl;
-    return moveDatas[0];
+    int moveCnt = moveDatas.size();
+    int chooseNum = rand() % moveCnt;
+    return moveDatas[chooseNum];
 }
