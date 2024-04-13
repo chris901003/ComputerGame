@@ -28,8 +28,7 @@ class Game {
 
     PlayerType askPlayerType(int);
     void initPlayerManager();
-    string getMoveDirectionTitle(MoveDirection);
-    vector<MoveData> getAndPrintValidMove(int turn);
+    vector<MoveData> getValidMove(int turn);
 
     public:
     void initGame();

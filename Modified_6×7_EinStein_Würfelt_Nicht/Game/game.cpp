@@ -36,23 +36,6 @@ PlayerBase* PlayerType::getPlayerManager() {
     }
 }
 
-string Game::getMoveDirectionTitle(MoveDirection direction) {
-    switch (direction) {
-        case MoveDirection::right:
-        return "右";
-        case MoveDirection::down:
-        return "下";
-        case MoveDirection::rightDown:
-        return "右下";
-        case MoveDirection::left:
-        return "左";
-        case MoveDirection::up:
-        return "上";
-        case MoveDirection::leftUp:
-        return "左上";
-    }
-}
-
 PlayerType Game::askPlayerType(int player) {
     bool isFirst = true;
     int num = 0;
@@ -70,13 +53,8 @@ void Game::initPlayerManager() {
     playerManager2 = player2.getPlayerManager();
 }
 
-vector<MoveData> Game::getAndPrintValidMove(int turn) {
+vector<MoveData> Game::getValidMove(int turn) {
     vector<MoveData> validMoves = board.validMove(Player(turn - 1));
-    if (!((turn == 1 && player1.value == PlayerType::human) || (turn == 2 && player2.value == PlayerType::human))) return validMoves;
-    cout << "總共有" << validMoves.size() << "種選擇" << endl;
-    for (int index = 0; index < validMoves.size(); index++) {
-        cout << index + 1 << ". " << validMoves[index].num << " 往 " << getMoveDirectionTitle(validMoves[index].direction) << endl;
-    }
     return validMoves;
 }
 
@@ -101,7 +79,7 @@ void Game::startGame() {
     int turn = 1;
     while (true) {
         cout << "現在是玩家" << turn << "進行" << endl;
-        vector<MoveData> moveData = getAndPrintValidMove(turn);
+        vector<MoveData> moveData = getValidMove(turn);
 
         PlayerBase* playerManager = turn == 1 ? playerManager1 : playerManager2;
         playerManager->getMoveDecision(moveData);
