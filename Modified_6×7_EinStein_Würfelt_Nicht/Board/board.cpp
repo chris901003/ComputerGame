@@ -114,6 +114,12 @@ int Board::getBoardNum(int x, int y) {
     return board[x][y];
 }
 
+pair<int, int> Board::getNumPos(Player player, int num) {
+    num += player == Player::red ? 0 : 6;
+    if (chessPlace.count(num)) return {-1, -1};
+    return chessPlace[num];
+}
+
 void Board::printBoard() {
     cout << "=======================" << endl;
     for (auto &x:board) {

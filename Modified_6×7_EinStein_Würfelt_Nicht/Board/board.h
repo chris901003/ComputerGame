@@ -29,14 +29,15 @@ class Board {
     private:
     vector<vector<int>> board;
     map<int, pair<int, int>> chessPlace;
-    pair<int, int> getDxDy(MoveDirection);
     vector<MoveData> moveRecord;
 
     public:
     Board();
+    pair<int, int> getDxDy(MoveDirection);
     bool move(MoveData);
     vector<MoveData> validMove(Player);
     void printBoard();
     int getPlayerChessCnt(Player);
-    int getBoardNum(int x, int y);
+    int getBoardNum(int, int);
+    pair<int, int> getNumPos(Player, int);
 };
