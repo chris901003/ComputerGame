@@ -1,2 +1,4 @@
 *.txt
 *.out
+build
+!CMakeLists.txt
