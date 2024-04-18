@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 #include "playerAlphaBeta.h"
-#define INF 1e9;
+#define INF 1e9
 
 using namespace std;
 
@@ -143,10 +143,65 @@ int PlayerAlphaBeta::boardScore(Player player) {
     return score;
 }
 
-MoveData PlayerAlphaBeta::alphaBetaMove(Player player, bool isMax, int alpha, int beta, int depth) {
-    
+int PlayerAlphaBeta::alphaBetaMove(Player player, bool isMax, int alpha, int beta, int depth) {
+    if (board.isGameEnd()) {
+        int redCnt = board.getPlayerChessCnt(Player::red);
+        int blueCnt = board.getPlayerChessCnt(Player::blue);
+        if (redCnt == 0) {
+            return player == Player::red ? -INF : INF;
+        } else if (blueCnt == 0) {
+            return player == Player::red ? INF : -INF;
+        }
+        int redScore = board.getBoardNum(5, 6);
+        int blueScore = board.getBoardNum(0, 0);
+        if (redScore > blueScore) {
+            return player == Player::red ? INF : -INF;
+        } else if (redScore < blueScore) {
+            return player == Player::red ? -INF : INF;
+        } else {
+            return 0;
+        }
+    }
+
+    Player currentPlayer = isMax ? player : player == Player::red ? Player::blue : Player::red;
+    vector<MoveData> moveDatas = board.validMove(currentPlayer);
+
+    if (depth == PlayerAlphaBeta::MAX_DEEP) {
+        return boardScore(player);
+    }
+
+    int v = isMax ? -INF : INF;
+    for (auto &move: moveDatas) {
+        Board oldBoard = board;
+        board.move(move);
+        int score = alphaBetaMove(player, !isMax, alpha, beta, depth + 1);
+        board = oldBoard;
+        if (isMax) {
+            v = max(v, score);
+            alpha = max(alpha, v);
+        } else {
+            v = min(v, score);
+            beta = min(beta, v);
+        }
+        if (alpha > beta) {
+            return v;
+        }
+    }
+    return v;
 }
 
 MoveData PlayerAlphaBeta::getMoveDecision(vector<MoveData> moveDatas) {
-    return alphaBetaMove(moveData[0].player, true, INF, -INF, 0);
+    int value = -(INF + 1);
+    MoveData selection = moveDatas[0];
+    for (auto &move: moveDatas) {
+        Board oldBoard = board;
+        board.move(move);
+        int result = alphaBetaMove(move.player, false, -INF, INF, 0);
+        board = oldBoard;
+        if (result > value) {
+            value = result;
+            selection = move;
+        }
+    }
+    return selection;
 }

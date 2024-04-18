@@ -116,8 +116,22 @@ int Board::getBoardNum(int x, int y) {
 
 pair<int, int> Board::getNumPos(Player player, int num) {
     num += player == Player::red ? 0 : 6;
-    if (chessPlace.count(num)) return {-1, -1};
+    if (!chessPlace.count(num)) return {-1, -1};
     return chessPlace[num];
+}
+
+bool Board::isGameEnd() {
+    vector<MoveData> redMove = validMove(Player::red);
+    vector<MoveData> blueMove = validMove(Player::blue);
+    return (redMove.size() == 0) && (blueMove.size() == 0);
+}
+
+vector<vector<int>> Board::getBoard() {
+    return board;
+}
+
+void Board::setBoard(vector<vector<int>> newBoard) {
+    board = newBoard;
 }
 
 void Board::printBoard() {

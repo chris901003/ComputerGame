@@ -40,4 +40,7 @@ class Board {
     int getPlayerChessCnt(Player);
     int getBoardNum(int, int);
     pair<int, int> getNumPos(Player, int);
+    bool isGameEnd();
+    vector<vector<int>> getBoard();
+    void setBoard(vector<vector<int>>);
 };
