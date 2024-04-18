@@ -1,5 +1,5 @@
-#include <bits/stdc++.h>
 #include "playerHuman.h"
+#include <iostream>
 
 using namespace std;
 

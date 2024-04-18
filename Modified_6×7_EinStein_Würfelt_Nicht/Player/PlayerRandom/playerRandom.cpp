@@ -1,5 +1,5 @@
-#include <bits/stdc++.h>
 #include "playerRandom.h"
+#include <random>
 
 using namespace std;
 

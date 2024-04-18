@@ -1,5 +1,4 @@
 #pragma once
-#include <bits/stdc++.h>
 #include "../../Board/board.h"
 
 using namespace std;

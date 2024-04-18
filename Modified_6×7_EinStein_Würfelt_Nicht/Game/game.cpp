@@ -1,8 +1,8 @@
-#include <bits/stdc++.h>
 #include "game.h"
 #include "../Player/PlayerHuman/playerHuman.h"
 #include "../Player/PlayerRandom/playerRandom.h"
 #include "../Player/PlayerAlphaBeta/playerAlphaBeta.h"
+#include <iostream>
 
 using namespace std;
 

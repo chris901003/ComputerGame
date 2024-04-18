@@ -1,5 +1,7 @@
-#include <bits/stdc++.h>
 #include "playerAlphaBeta.h"
+#include <set>
+#include <queue>
+#include <iostream>
 #define INF 1e9
 
 using namespace std;
