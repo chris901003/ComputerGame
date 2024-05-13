@@ -14,4 +14,5 @@ target_sources( EinStein
         "./Player/PlayerHuman/playerHuman.cpp"
         "./Player/PlayerRandom/playerRandom.cpp"
         "./Player/PlayerAlphaBeta/playerAlphaBeta.cpp"
+        "./Player/PlayerPVS/playerPVS.cpp"
 )

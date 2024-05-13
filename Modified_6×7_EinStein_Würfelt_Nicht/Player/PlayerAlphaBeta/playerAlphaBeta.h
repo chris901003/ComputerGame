@@ -1,3 +1,4 @@
+#pragma once
 #include "../PlayerBase/playerBase.h"
 #include "../../Board/board.h"
 

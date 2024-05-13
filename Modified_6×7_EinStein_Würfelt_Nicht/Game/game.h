@@ -10,6 +10,7 @@ class PlayerType {
         human,
         random,
         alphaBeta,
+        pvs,
         valueCnt
     };
     PlayerType(Value);

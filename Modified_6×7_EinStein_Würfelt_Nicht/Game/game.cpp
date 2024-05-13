@@ -2,6 +2,7 @@
 #include "../Player/PlayerHuman/playerHuman.h"
 #include "../Player/PlayerRandom/playerRandom.h"
 #include "../Player/PlayerAlphaBeta/playerAlphaBeta.h"
+#include "../Player/PlayerPVS/playerPVS.h"
 #include <iostream>
 
 using namespace std;
@@ -18,6 +19,8 @@ string PlayerType::getTitle() {
         return "隨機玩";
         case alphaBeta:
         return "用Alpha Beta算法玩";
+        case pvs:
+        return "用PVS算法玩";
         default:
         return "";
     }
@@ -31,6 +34,8 @@ PlayerBase* PlayerType::getPlayerManager() {
         return new PlayerRandom();
         case alphaBeta:
         return new PlayerAlphaBeta();
+        case pvs:
+        return new PlayerPVS();
         default:
         return new PlayerBase();
     }
