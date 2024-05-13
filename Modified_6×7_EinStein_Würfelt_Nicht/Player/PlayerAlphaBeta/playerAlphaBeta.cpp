@@ -146,7 +146,7 @@ int PlayerAlphaBeta::boardScore(Player player) {
 }
 
 int PlayerAlphaBeta::alphaBetaMove(Player player, bool isMax, int alpha, int beta, int depth) {
-    if (board.isGameEnd()) {
+    if (board.isStopMove()) {
         int redCnt = board.getPlayerChessCnt(Player::red);
         int blueCnt = board.getPlayerChessCnt(Player::blue);
         if (redCnt == 0) {
@@ -154,14 +154,14 @@ int PlayerAlphaBeta::alphaBetaMove(Player player, bool isMax, int alpha, int bet
         } else if (blueCnt == 0) {
             return player == Player::red ? INF : -INF;
         }
-        int redScore = board.getBoardNum(5, 6);
-        int blueScore = board.getBoardNum(0, 0);
+        int redScore = board.getBoardNum(5, 6) % 6;
+        int blueScore = board.getBoardNum(0, 0) % 6;
         if (redScore > blueScore) {
             return player == Player::red ? INF : -INF;
         } else if (redScore < blueScore) {
             return player == Player::red ? -INF : INF;
         } else {
-            return 0;
+            return -INF;
         }
     }
 
@@ -194,6 +194,7 @@ int PlayerAlphaBeta::alphaBetaMove(Player player, bool isMax, int alpha, int bet
 
 MoveData PlayerAlphaBeta::getMoveDecision(vector<MoveData> moveDatas) {
     int value = -(INF + 1);
+    reverse(moveDatas.begin(), moveDatas.end());
     MoveData selection = moveDatas[0];
     for (auto &move: moveDatas) {
         Board oldBoard = board;

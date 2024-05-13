@@ -4,6 +4,9 @@
 
 class PlayerAlphaBeta: public PlayerBase {
     private:
+    int alphaBetaMove(Player player, bool isMax, int alpha, int beta, int depth);
+
+    protected:
     static const int MAX_DEEP = 4;
     Board board;
     int boardScore(Player);
@@ -14,7 +17,6 @@ class PlayerAlphaBeta: public PlayerBase {
     int getLargestNum(Player);
     int getLargest(vector<int>);
     int normalScore(Player);
-    int alphaBetaMove(Player player, bool isMax, int alpha, int beta, int depth);
 
     public:
     void updateBoard(Board);
