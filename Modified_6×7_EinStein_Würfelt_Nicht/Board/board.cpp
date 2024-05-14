@@ -131,7 +131,7 @@ bool Board::isStopMove() {
     int topLeft = board[0][0];
     int bottomRight = board[5][6];
     if (topLeft == -1 || bottomRight == -1) return false;
-    return ((topLeft / 6) == 1 && ((bottomRight / 6) == 0));
+    return (((topLeft / 6) == 1) && ((bottomRight / 6) == 0));
 }
 
 vector<vector<int>> Board::getBoard() {

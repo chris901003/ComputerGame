@@ -90,7 +90,7 @@ void Game::startGame() {
         if (moveData.size() > 0) {
             PlayerType player = turn == 1 ? player1 : player2;
             PlayerBase* playerManager = turn == 1 ? playerManager1 : playerManager2;
-            if (player.value == PlayerType::alphaBeta) {
+            if (player.value == PlayerType::alphaBeta || player.value == PlayerType::PlayerType::pvs) {
                 ((PlayerAlphaBeta*)playerManager)->updateBoard(board);
             }
             MoveData decidedMove = playerManager->getMoveDecision(moveData);
