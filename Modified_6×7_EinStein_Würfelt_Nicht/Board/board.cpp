@@ -73,12 +73,27 @@ bool Board::move(MoveData moveData) {
         if (direction != MoveDirection::left && direction != MoveDirection::up && direction != MoveDirection::leftUp) return false;
         if (nxtNum != -1 && nxtNum >= 6) return false;
     }
+    lastBeforeChageBoardData.push_back({{curPos.first, curPos.second, num}, {nxtPos.first, nxtPos.second, nxtNum}});
     if (nxtNum != -1) chessPlace.erase(nxtNum);
     chessPlace[num] = nxtPos;
     board[nxtPos.first][nxtPos.second] = num;
     board[curPos.first][curPos.second] = -1;
     moveRecord.push_back(moveData);
     return true;
+}
+
+void Board::undo() {
+    moveRecord.pop_back();
+    vector<vector<int>> lastChange = lastBeforeChageBoardData.back();
+    lastBeforeChageBoardData.pop_back();
+    board[lastChange[0][0]][lastChange[0][1]] = lastChange[0][2];
+    board[lastChange[1][0]][lastChange[1][1]] = lastChange[1][2];
+    if (lastChange[0][2] != -1) {
+        chessPlace[lastChange[0][2]] = {lastChange[0][0], lastChange[0][1]};
+    }
+    if (lastChange[1][2] != -1) {
+        chessPlace[lastChange[1][2]] = {lastChange[1][0], lastChange[1][1]};
+    }
 }
 
 vector<MoveData> Board::validMove(Player player) {

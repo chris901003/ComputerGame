@@ -31,10 +31,11 @@ class Board {
     private:
     vector<vector<int>> board;
     map<int, pair<int, int>> chessPlace;
-    vector<MoveData> moveRecord;
+    vector<vector<vector<int>>> lastBeforeChageBoardData;
 
     public:
     Board();
+    vector<MoveData> moveRecord;
     pair<int, int> getDxDy(MoveDirection);
     bool move(MoveData);
     vector<MoveData> validMove(Player);
@@ -46,4 +47,5 @@ class Board {
     bool isStopMove();
     vector<vector<int>> getBoard();
     void setBoard(vector<vector<int>>);
+    void undo();
 };

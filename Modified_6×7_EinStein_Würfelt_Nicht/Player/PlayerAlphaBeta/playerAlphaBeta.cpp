@@ -174,10 +174,9 @@ int PlayerAlphaBeta::alphaBetaMove(Player player, bool isMax, int alpha, int bet
 
     int v = isMax ? -INF : INF;
     for (auto &move: moveDatas) {
-        Board oldBoard = board;
         board.move(move);
         int score = alphaBetaMove(player, !isMax, alpha, beta, depth + 1);
-        board = oldBoard;
+        board.undo();
         if (isMax) {
             v = max(v, score);
             alpha = max(alpha, v);
@@ -197,10 +196,9 @@ MoveData PlayerAlphaBeta::getMoveDecision(vector<MoveData> moveDatas) {
     reverse(moveDatas.begin(), moveDatas.end());
     MoveData selection = moveDatas[0];
     for (auto &move: moveDatas) {
-        Board oldBoard = board;
         board.move(move);
         int result = alphaBetaMove(move.player, false, -INF, INF, 0);
-        board = oldBoard;
+        board.undo();
         if (result > value) {
             value = result;
             selection = move;

@@ -34,7 +34,6 @@ int PlayerPVS::pvsMove(Player player, bool isMax, int alpha, int beta, int depth
     int v = -INF;
     bool foundPV = false;
     for (auto &move: moveDatas) {
-        Board oldBoard = board;
         board.move(move);
         int score = 0;
         if (foundPV) {
@@ -45,7 +44,7 @@ int PlayerPVS::pvsMove(Player player, bool isMax, int alpha, int beta, int depth
         } else {
             score = -pvsMove(player, !isMax, -beta, -alpha, depth + 1);
         }
-        board = oldBoard;
+        board.undo();
         v = max(v, score);
         if (v > alpha) {
             alpha = v;
@@ -63,10 +62,9 @@ MoveData PlayerPVS::getMoveDecision(vector<MoveData> moveDatas) {
     reverse(moveDatas.begin(), moveDatas.end());
     MoveData selection = moveDatas[0];
     for (auto &move: moveDatas) {
-        Board oldBoard = board;
         board.move(move);
         int result = -pvsMove(move.player, false, -INF, INF, 0);
-        board = oldBoard;
+        board.undo();
         if (result > value) {
             value = result;
             selection = move;
