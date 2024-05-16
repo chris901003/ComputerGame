@@ -5,7 +5,7 @@
 1. 進入與main.cpp相同層級的資料夾(也就是根資料夾)
 2. 輸入以下指令
     ```
-    g++ main.cpp ./Board/board.cpp ./Game/game.cpp ./Player/PlayerBase/playerBase.cpp ./Player/PlayerHuman/playerHuman.cpp ./Player/PlayerRandom/playerRandom.cpp ./Player/PlayerAlphaBeta/playerAlphaBeta.cpp --std=c++17 -o a.out
+    g++ main.cpp ./Board/board.cpp ./Game/game.cpp ./Player/PlayerBase/playerBase.cpp ./Player/PlayerHuman/playerHuman.cpp ./Player/PlayerRandom/playerRandom.cpp ./Player/PlayerAlphaBeta/playerAlphaBeta.cpp ./Player/PlayerPVS/playerPVS.cpp --std=c++17 -o a.out
     ```
 3. 會看到在當前目錄下多了a.out檔案
 4. 直接執行a.out即可
