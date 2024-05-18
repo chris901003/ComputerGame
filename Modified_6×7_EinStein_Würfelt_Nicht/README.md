@@ -41,7 +41,7 @@
 
 ### Player
 玩家相關方法，由PlayerBase作為基底，其他的玩家類型皆繼承自PlayerBase
-總共分為以下3種玩家
+總共分為以下4種玩家
 1. Human Player
 - 由真人選擇要移動的方法
 
@@ -50,6 +50,11 @@
 
 3. Alpha-Beta Player
 - 使用alpha-beta的演算法來決定要怎麼移動
+
+4. PVS Player
+- 使用PVS的演算法來決定要怎麼移動
+- 使用PVS與使用Alpha-Beta演算法得出的結果會相同，但是執行效率會比較高
+    - 經過測試平均會提升16%的速度
 
 ## 簡單的遊戲介面
 1. 初始畫面
