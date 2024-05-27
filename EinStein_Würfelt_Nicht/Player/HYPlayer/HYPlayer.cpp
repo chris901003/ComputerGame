@@ -20,9 +20,9 @@ int HYPlayer::hyMove(Player player, bool isMax, int alpha, int beta, int depth) 
         }
         int redScore = board.getBoardNum(4, 4) % 6;
         int blueScore = board.getBoardNum(0, 0) % 6;
-        if (redScore > blueScore) {
+        if (board.getBoardNum(0, 0) == -1 || (redScore > blueScore)) {
             return player == Player::red ? INF : -INF;
-        } else if (redScore < blueScore) {
+        } else if (board.getBoardNum(4, 4) == -1 || (redScore < blueScore)) {
             return player == Player::red ? -INF : INF;
         } else {
             return -INF;
