@@ -1,5 +1,11 @@
 #include "float.h"
 #include "MyAI.h"
+#include <vector>
+#include <iostream>
+#include "./Player/HYPlayer/HYPlayer.h"
+#include "./Board/board.h"
+
+using namespace std;
 
 MyAI::MyAI(void) {}
 
@@ -7,12 +13,12 @@ MyAI::~MyAI(void) {}
 
 void MyAI::Name(const char *data[], char *response)
 {
-	strcpy(response, "2222");
+	strcpy(response, "HongYan");
 }
 
 void MyAI::Version(const char *data[], char *response)
 {
-	strcpy(response, "1.0.0");
+	strcpy(response, "0.1.0");
 }
 
 void MyAI::Time_setting(const char *data[], char *response)
@@ -184,11 +190,24 @@ void MyAI::Generate_move(char *move)
 	int result[100];
 	// get legal moves
 	int move_count = this->get_legal_move(result);
+
+	Player player = result[0] <= 6 ? Player::blue : Player::red;
+	HYPlayer hyPlayer = HYPlayer(board, player);
+	vector<MoveData> moveDatas = hyPlayer.board.validMove(player);
+	vector<MoveData> filter;
+	for (auto &x:moveDatas) {
+		if (x.num == ((result[0] - 1) % 6)) {
+			filter.push_back(x);
+		}
+	}
+	MoveData moveData = hyPlayer.getMoveDecision(filter);
+
 	// randomly choose a legal move
-	int rand_move = rand() % move_count;
-	int piece = result[rand_move * 3];
-	int start_point = result[rand_move * 3 + 1];
-	int end_point = result[rand_move * 3 + 2];
+	pair<int, int> pos = hyPlayer.board.getNumPos(player, moveData.num);
+	pair<int, int>dxdy = hyPlayer.board.getDxDy(moveData.direction);
+	int piece = moveData.num + 1 + (player == Player::red ? 6 : 0);
+	int start_point = pos.first * 5 + pos.second;
+	int end_point = (pos.first + dxdy.first) * 5 + pos.second + dxdy.second;
 	sprintf(move, "%c%c%c%c", 'A' + start_point % BOARD_SIZE, '1' + start_point / BOARD_SIZE, 'A' + end_point % BOARD_SIZE, '1' + end_point / BOARD_SIZE);
 	this->Make_move(piece, start_point, end_point);
 	// print the result
@@ -199,6 +218,10 @@ void MyAI::Generate_move(char *move)
 		fprintf(stderr, "Red piece %d: (%c%c) -> (%c%c)\n", piece - PIECE_NUM, move[0], move[1], move[2], move[3]);
 	this->Print_chessboard();
 	fprintf(stderr, "============================\n");
+
+	// board裡面有目前整個版面的資訊，並且如果該位置沒有旗子就會是0，如果有就會是旗子的數字
+	// 藍：1~6
+	// 紅：7~12
 }
 
 // get all legal moves
