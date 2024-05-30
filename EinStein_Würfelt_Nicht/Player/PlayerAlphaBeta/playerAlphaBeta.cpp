@@ -119,8 +119,11 @@ int PlayerAlphaBeta::normalScore(Player player) {
     for (int num = 0; num < 6; num++) {
         pair<int, int> myPos = board.getNumPos(player, num);
         if (myPos.first == -1) continue;
-        int dis = myPos.first + myPos.second - (player == Player::red ? 0 : 8);
-        total += dis * 10;
+        int dis = myPos.first + myPos.second;
+        if (player == Player::blue) {
+            dis = 4 - myPos.first + 4 - myPos.second;
+        }
+        total += dis * 2;
         cnt += 1;
     }
     return (total * 6 / cnt);
