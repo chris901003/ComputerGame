@@ -7,7 +7,7 @@ class PlayerAlphaBeta: public PlayerBase {
     int alphaBetaMove(Player player, bool isMax, int alpha, int beta, int depth);
 
     protected:
-    static const int MAX_DEEP = 4;
+    static const int MAX_DEEP = 6;
     int boardScore(Player);
     vector<int> impossibleDismiss(Player);
     bool testToEnd(Player, int);

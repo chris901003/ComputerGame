@@ -9,7 +9,33 @@ HYPlayer::HYPlayer(int curBoard[5][5], Player player) {
     currentPlayer = player;
 }
 
+int HYPlayer::getPossible(Player player, int num) {
+    int possible = 1;
+    int cur = num - 1;
+    while (cur >= 0) {
+        pair<int, int>pos = board.getNumPos(player, cur);
+        if (pos.first == -1) {
+            possible += 1;
+            cur -= 1;
+        } else {
+            break;
+        }
+    }
+    cur = num + 1;
+    while (cur < 6) {
+        pair<int, int>pos = board.getNumPos(player, cur);
+        if (pos.first == -1) {
+            possible += 1;
+            cur += 1;
+        } else {
+            break;
+        }
+    }
+    return possible;
+}
+
 int HYPlayer::hyMove(Player player, bool isMax, int alpha, int beta, int depth) {
+    // cerr << rand() << endl;
     if (board.isStopMove()) {
         int redCnt = board.getPlayerChessCnt(Player::red);
         int blueCnt = board.getPlayerChessCnt(Player::blue);
@@ -39,15 +65,16 @@ int HYPlayer::hyMove(Player player, bool isMax, int alpha, int beta, int depth) 
     int v = -INF;
     bool foundPV = false;
     for (auto &move: moveDatas) {
+        int possible = getPossible(move.player, move.num);
         board.move(move);
         int score = 0;
         if (foundPV) {
-            score = -hyMove(player, !isMax, -alpha - 1, -alpha, depth + 1);
+            score = -hyMove(player, !isMax, -alpha - 1, -alpha, depth + 1) * possible;
             if (alpha < score && score < beta) {
-                score = -hyMove(player, !isMax, -beta, -alpha, depth + 1);
+                score = -hyMove(player, !isMax, -beta, -alpha, depth + 1) * possible;
             }
         } else {
-            score = -hyMove(player, !isMax, -beta, -alpha, depth + 1);
+            score = -hyMove(player, !isMax, -beta, -alpha, depth + 1) * possible;
         }
         board.undo();
         v = max(v, score);

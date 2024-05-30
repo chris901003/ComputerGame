@@ -115,57 +115,18 @@ int PlayerAlphaBeta::defWinOrLoss(Player player) {
 
 int PlayerAlphaBeta::normalScore(Player player) {
     int total = 0;
+    int cnt = 0;
     for (int num = 0; num < 6; num++) {
         pair<int, int> myPos = board.getNumPos(player, num);
         if (myPos.first == -1) continue;
-        int blockCnt = 0;
-        for (int oppNum = 0; oppNum < 6; oppNum++) {
-            pair<int, int> oppPos = board.getNumPos(player == Player::red ? Player::blue : Player::red, oppNum);
-            if (oppPos.first == -1) continue;
-            if (player == Player::red) {
-                if (!(myPos.first > oppPos.first || myPos.second > oppPos.second)) {
-                    blockCnt += 1;
-                }
-            } else if (player == Player::blue) {
-                if (!(myPos.first < oppPos.first || myPos.second < oppPos.second)) {
-                    blockCnt += 1;
-                }
-            }
-        }
         int dis = myPos.first + myPos.second - (player == Player::red ? 0 : 8);
-        int possible = 1;
-        int cur = num - 1;
-        while (cur >= 0) {
-            pair<int, int>pos = board.getNumPos(player, cur);
-            if (pos.first == -1) {
-                possible += 1;
-                cur -= 1;
-            } else {
-                break;
-            }
-        }
-        cur = num + 1;
-        while (cur < 6) {
-            pair<int, int>pos = board.getNumPos(player, cur);
-            if (pos.first == -1) {
-                possible += 1;
-                cur += 1;
-            } else {
-                break;
-            }
-        }
-        // 7 * 7 = 49
-        // 8 * 10 = 80
-        // 6 * 11 = 66
-        total += ((7 - blockCnt) * 7 + dis * 10) * (possible / 6.0);
+        total += dis * 10;
+        cnt += 1;
     }
-    return total;
+    return (total * 6 / cnt);
 }
 
 int PlayerAlphaBeta::boardScore(Player player) {
-    // int winOrLossScore = defWinOrLoss(player);
-    // if (winOrLossScore != 0) return winOrLossScore;
-
     int score = normalScore(player);
     return score;
 }
